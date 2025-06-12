@@ -1,21 +1,97 @@
 [project]
-name = "file"
-description = ""
-authors = []
+name = "onchain-auction-system"
+version = "2.0.0"
+authors = ["Your Name <your.email@example.com>"]
+description = "Enhanced on-chain auction system with escrow functionality"
 telemetry = true
-cache_dir = "./.cache"
+cache_dir = "./.clarinet"
+requirements = []
+boot_contracts = []
 
-# [contracts.counter]
-# path = "contracts/counter.clar"
+[contracts.auction]
+path = "contracts/auction.clar"
+clarity_version = 2
+epoch = "2.4"
+
+[contracts.escrow]
+path = "contracts/escrow.clar"
+clarity_version = 2
+epoch = "2.4"
+
+[repl]
+costs_version = 2
+parser_version = 2
 
 [repl.analysis]
 passes = ["check_checker"]
-check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }
 
-# Check-checker settings:
-# trusted_sender: if true, inputs are trusted after tx_sender has been checked.
-# trusted_caller: if true, inputs are trusted after contract-caller has been checked.
-# callee_filter: if true, untrusted data may be passed into a private function without a
-# warning, if it gets checked inside. This check will also propagate up to the
-# caller.
-# More informations: https://www.hiro.so/blog/new-safety-checks-in-clarinet
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
+
+# Development network configuration
+[networks.devnet]
+stacks_node_rpc_address = "http://localhost:20443"
+stacks_node_p2p_address = "localhost:20444"
+bitcoin_node_rpc_address = "http://localhost:18443"
+bitcoin_node_rpc_username = "devnet"
+bitcoin_node_rpc_password = "devnet"
+bitcoin_node_p2p_localhost = "localhost:18444"
+bitcoin_explorer_url = "http://localhost:8001"
+stacks_explorer_url = "http://localhost:8000"
+bitcoin_explorer_url = "http://localhost:8001"
+stacks_api_url = "http://localhost:3999"
+
+# Testnet configuration
+[networks.testnet]
+stacks_node_rpc_address = "https://stacks-node-api.testnet.stacks.co"
+bitcoin_node_rpc_address = "https://blockstream.info/testnet/api"
+stacks_api_url = "https://stacks-node-api.testnet.stacks.co"
+stacks_explorer_url = "https://explorer.stacks.co/?chain=testnet"
+bitcoin_explorer_url = "https://blockstream.info/testnet"
+
+# Mainnet configuration
+[networks.mainnet]
+stacks_node_rpc_address = "https://stacks-node-api.mainnet.stacks.co"
+bitcoin_node_rpc_address = "https://blockstream.info/api"
+stacks_api_url = "https://stacks-node-api.mainnet.stacks.co"
+stacks_explorer_url = "https://explorer.stacks.co"
+bitcoin_explorer_url = "https://blockstream.info"
+
+# Test accounts for development
+[[devnet.accounts]]
+name = "deployer"
+mnemonic = "twice kind fence tip hidden tilt action fragile skin nothing glory cousin green tomorrow spring wrist shed math olympic multiply hip blue scout claw"
+balance = 100_000_000_000_000
+
+[[devnet.accounts]]
+name = "wallet_1"
+mnemonic = "sell invite acquire kitten bamboo drastic jelly vivid peace spawn twice guilt pave pen trash pretty park cube fragile unaware remain midnight betray rebuild"
+balance = 100_000_000_000_000
+
+[[devnet.accounts]]
+name = "wallet_2"
+mnemonic = "hold excess usual excess ring elephant install account glad dry fragile donkey gaze humble truck breeze nation gasp vacuum limb head keep delay hospital"
+balance = 100_000_000_000_000
+
+[[devnet.accounts]]
+name = "wallet_3"
+mnemonic = "cycle puppy glare enroll cost improve round trend wrist mushroom scorpion tower claim oppose clever elephant dinosaur eight problem before frozen dune wagon high"
+balance = 100_000_000_000_000
+
+[[devnet.accounts]]
+name = "wallet_4"
+mnemonic = "board list obtain sugar hour worth raven scout denial thunder horse logic fury scorpion fold genuine phrase wealth news aim below celery when cabin"
+balance = 100_000_000_000_000
+
+# Deployment plans
+[deployments.requirements]
+mainnet = 700_000
+testnet = 300_000
+
+# Contract deployment costs
+[deployments.costs]
+auction = 50_000
+escrow = 30_000
